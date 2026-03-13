@@ -1,17 +1,24 @@
 package main
 
 import (
-	"log"
 	"net/http"
+
+	"github.com/gin-gonic/gin"
 )
 
 func main() {
-	http.HandleFunc("/", publicHandler)
+	// Create a Gin router with default middleware (logger and recovery)
+	r := gin.Default()
 
-	log.Print("Starting server on port:8080")
-	log.Fatal(http.ListenAndServe(":8080", nil))
-}
+	// Define a simple GET endpoint
+	r.GET("/ping", func(c *gin.Context) {
+		// Return JSON response
+		c.JSON(http.StatusOK, gin.H{
+			"message": "pong",
+		})
+	})
 
-func publicHandler(w http.ResponseWriter, r *http.Request) {
-	w.Write([]byte("Welcome to the golang server handler."))
+	// Start server on port 8080 (default)
+	// Server will listen on 0.0.0.0:8080 (localhost:8080 on Windows)
+	r.Run()
 }
