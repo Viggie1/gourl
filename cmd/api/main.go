@@ -12,8 +12,10 @@ func main() {
 	if err != nil {
 		log.Println("No .env file found")
 	}
-	srv := server.New()
-
+	srv, err := server.New()
+	if err != nil {
+		log.Fatal(err)
+	}
 	if err := srv.Run(); err != nil {
 		log.Fatal(err)
 	}
