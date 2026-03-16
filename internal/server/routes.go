@@ -5,6 +5,7 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/Viggie1/gourl/internal/handlers"
 	"github.com/Viggie1/gourl/internal/models"
 	"github.com/gin-gonic/gin"
 )
@@ -20,4 +21,5 @@ func (s *Server) registerRoutes() {
 	s.router.GET("/", func(c *gin.Context) {
 		c.JSON(http.StatusOK, urlList)
 	})
+	s.router.POST("/urls", handlers.CreateShortURL)
 }
