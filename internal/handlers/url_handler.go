@@ -90,3 +90,15 @@ func (h *URLHandler) RetrieveOriginalURL(c *gin.Context) {
 
 	c.JSON(http.StatusOK, shortenedURL)
 }
+
+func (h *URLHandler) DeleteURL(c *gin.Context) {
+	id := c.Param("shortcode")
+
+	_, err := h.repo.Delete(id)
+	if err != nil {
+		c.JSON(http.StatusNotFound, gin.H{"error": "URL shortcode not found."})
+		return
+	}
+
+	c.Status(http.StatusNoContent)
+}

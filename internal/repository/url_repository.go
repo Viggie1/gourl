@@ -56,3 +56,20 @@ func (r *URLRepository) Retrieve(shortenedURL string) (*models.ShortenedURL, err
 
 	return &returnURL, nil
 }
+
+func (r *URLRepository) Delete(shortcode string) (bool, error) {
+	query := `DELETE FROM shortened_urls WHERE shortcode = $1`
+
+	rowRes, err := r.db.Exec(query, shortcode)
+	if err != nil {
+		return false, err
+	}
+
+	rowsAffected, _ := rowRes.RowsAffected()
+
+	if rowsAffected == 0 {
+		return false, sql.ErrNoRows
+	}
+
+	return true, nil
+}

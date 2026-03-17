@@ -14,4 +14,5 @@ func (s *Server) registerRoutes() {
 
 	s.router.POST("/api/v1/urls", s.handler.CreateShortURL)
 	s.router.GET("/api/v1/shorten/:shortcode", s.handler.RetrieveOriginalURL)
+	s.router.DELETE("/api/v1/shorten/:shortcode", s.handler.DeleteURL)
 }
