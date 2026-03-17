@@ -38,3 +38,21 @@ func (r *URLRepository) CheckURL(searchURL string) (*models.ShortenedURL, error)
 
 	return &shortURL, nil
 }
+
+func (r *URLRepository) Retrieve(shortenedURL string) (*models.ShortenedURL, error) {
+	query := `SELECT * FROM shortened_urls WHERE shortcode = $1`
+
+	var returnURL models.ShortenedURL
+
+	err := r.db.QueryRow(query, shortenedURL).Scan(&returnURL.ID, &returnURL.URL, &returnURL.ShortCode, &returnURL.CreatedAt, &returnURL.UpdatedAt)
+
+	if err == sql.ErrNoRows {
+		return nil, nil
+	}
+
+	if err != nil {
+		return nil, err
+	}
+
+	return &returnURL, nil
+}

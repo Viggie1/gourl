@@ -13,4 +13,5 @@ func (s *Server) registerRoutes() {
 	})
 
 	s.router.POST("/api/v1/urls", s.handler.CreateShortURL)
+	s.router.GET("/api/v1/shorten/:shortcode", s.handler.RetrieveOriginalURL)
 }

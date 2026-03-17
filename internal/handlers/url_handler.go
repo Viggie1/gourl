@@ -74,3 +74,19 @@ func (h *URLHandler) CreateShortURL(c *gin.Context) {
 		ShortURL:  "https://localhost:8080/" + shortCode,
 	})
 }
+
+func (h *URLHandler) RetrieveOriginalURL(c *gin.Context) {
+	id := c.Param("shortcode")
+
+	shortenedURL, err := h.repo.Retrieve(id)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	if shortenedURL == nil {
+		c.JSON(http.StatusNotFound, gin.H{"error": "Original URL not found"})
+	}
+
+	c.JSON(http.StatusOK, shortenedURL)
+}
